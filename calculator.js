@@ -1,12 +1,8 @@
 function calc() {
     // grabs the result <p> element
-    let result = document.getElementById('result');
+    let result_txt = document.getElementById('result');
     // grabs the calc_container <p> element
     let calc_container = document.getElementById('calc_container');
-    // if the elements are not visible, they are made visible
-    result.style.display = 'block';
-    calc_container.style.visibility = 'visible';
-
     // gets value from #hours input
     let hours = Number(document.getElementById('hours').value);
     // gets value from #days input
@@ -18,9 +14,7 @@ function calc() {
     // initializes variables for nested functions
     const weeks = 52.143;
     const ten_k = 10000;
-    let to_date = '';
-    let total_weeks = '';
-    let remaining_hours = '';
+    let total_weeks = 0;
 
     function filter() {
         // checks for any input for hours
@@ -38,7 +32,7 @@ function calc() {
         // defaults days to 7 if user doesnt use #days input
         else if (days == 0) {
             days = 7;
-            console.log('days== working');
+            console.log('days== working', days);
         }
         // displays an alert if user enters a value greather than 7 in #days
         else if (days > 7) {
@@ -47,39 +41,69 @@ function calc() {
             return
         }
         // displays a alert if months is equal to 12(a year) or greater 
-        else if (months > 11.99) {
+        else if (months > 12) {
             alert('Please enter a valid number of months.');
             return
         }
         // converts months to weeks if month is a valid number
         else if (months > 0) {
-            total_weeks = months * 4.345;
+            month_weeks = months * 4.345;
         }
         /* converts years to weeks if years is a valid number and adds it to
            any weeks converted from months */
         else if (years > 0) {
-            total_weeks = (years * weeks) + total_weeks;
+            total_weeks = (years * weeks) + month_weeks;
+        }
+
+        function calculate() {
+            console.log(years)
+            console.log('tw: ', total_weeks)
+            console.log('days: ', days)
+            console.log('hours: ', hours)
+            // if the elements are not visible, they are made visible
+            result_txt.style.display = 'block';
+            calc_container.style.visibility = 'visible';
+            // calculates total hours spent practicing so far
+            let to_date = (total_weeks * days) * hours;
+            console.log('to date: ', to_date);
+            // in the case of the users input being greater than 10k
+            if (to_date > ten_k) {
+                // calculates surplus
+                surplus = to_date - ten_k;
+                result = document.getElementById('result').innerText = `Congrats! You\'ve surpassed 10,000 hours by ${surplus}!`;
+                // exit
+                return
+            }
+            else {
+                let remaining_hours = Math.round(ten_k - to_date);
+                let total = (hours * days) * weeks;
+                result = remaining_hours / total;
+                years_result = Math.round(result);
+                months_result = Math.round(12 * (result - Math.floor(result)));
+    
+                // in the case of the users input equaling 10k    
+                if (to_date == ten_k) {
+                    result = document.getElementById('result').innerText = 'You\'ve reached 10,000 hours, time to celebrate!';
+                    // exit
+                    return
+                }
+                // otherwise
+                else {
+                    // takes result and rounds upwards for the first decimal 
+                    result = document.getElementById('result').innerText = `You have ${remaining_hours} hours left.\nAt your set pace, It will take about:\n${years_result} Year(s), and ${months_result} month(s)\nto reach 10,000 hours of practice.`;
+                    // exits function
+                    return
+                }
+            }
         }
         // runs calculate function
         return calculate();
     }
-    
-    function calculate() {
-        // calculates total hours spent practicing so far
-        to_date = ((total_weeks * days) * hours);
-        remaining_hours = (ten_k - to_date);
-        let total = (hours * days) * weeks;
-        let result = remaining_hours / total;
-        years_result = Math.floor(result);
-        months_result = Math.round(12 * (result - Math.floor(result)));
-        // takes result and rounds upwards for the first decimal 
-        result = document.getElementById('result').innerText = 'You have ' + remaining_hours + ' hours left.\n' + 'At your set pace, ' + 'It will take about:\n' + years_result + ' Year(s), ' + 'and ' + months_result + ' month(s)\n' + 'to reach 10,000 hours of practice.';
-        // exits function
-        return
-    }
 
     // runs filter function
     return filter();
+    
+
 }
 
 function about_reveal() {
