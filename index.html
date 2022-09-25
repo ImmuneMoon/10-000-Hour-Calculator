@@ -46,7 +46,7 @@
                         </div>
                         <p>How long have you been practicing your skill?</p>
                     </div>
-                    <div class="mt-5" id="calc_container">
+                    <div class="mt-5 mb-5" id="calc_container">
                         <button type="submit" class="" id="calculate" onclick="calc();">Calculate</button>
                         <p class="col-12" id="result"></p>
                     </div>
@@ -55,14 +55,15 @@
         </main>
         <footer>
             <section id="about_container" class="">
-                <button class="m-0" id="about-btn" onclick="about_reveal();">About</button>
+                <button class="m-0" id="about_btn" onclick="about_reveal();">About</button>
                 <p id="about">
                     A calculator for determining how long you have left to 
                     reach 10,000 hours in a skill. The calculator will tell you 
                     how many hours you have left based on how many hours a day 
                     you practice a skill, and how many days a week you practice. 
                     If provided, it will take into account how long you've been 
-                    practicing for aswell.
+                    practicing for aswell.<br>(Program assumes your given schedule 
+                    for current hours practiced).
                 </p>
             </section>
         </footer>
