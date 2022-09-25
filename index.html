@@ -6,66 +6,81 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>10,000 Hour Calculator</title>
         <link rel="icon" href="./images/10k.ico" />
+        <!--JQuery-->
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous">
+        </script>
         <!-- Bootstrap -->
         <!-- CSS only -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+              crossorigin="anonymous">
         <!--Bootstrap-->
         <!-- JavaScript Bundle with Popper -->
-        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+        <script 
+            defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous">
+        </script>
         <!--stylesheet-->
         <link href="./styles.css" rel="stylesheet" />
+        <!--JavaScript-->
         <script src="./calculator.js"></script>
-
     </head>
     <body>
-        <header>
-            <h1 class="mt-5"><u>The 10,000 Hour Calcuator</u></h1>
-        </header>
-        <main>
-            <div class="mt-5" id="form_container">
-                <section id="form">
-                    <div class="mb-4" id="hours_container">
-                        <input type="number" class="mb-2" id="hours" placeholder="Hours" />
-                        <p class="text">
-                            On average, how many hours a day<br>do you practice your skill?
-                        </p>
-                    </div>
-                    <div class="mb-4" id="days_container">
-                        <input type="number" class="mb-2" id="days" placeholder="Days (optional)" />
-                        <p class="text">
-                            On average, how many days a week<br>do you practice your skill?
-                        </p>
-                        <p class="subtext">
-                            (Program will assume 7 if left blank)
-                        </p>
-                    </div>
-                    <div class="mt-4 mb-4" id="time_spent_container">
-                        <div class="row mb-2" id="tSpent_inputs">
-                            <input type="number" class="col-6" id="years" placeholder="Years (optional)" />
-                            <input type="number" class="col-6" id="months" placeholder="Months (optional)" />
+        <div id="page_container">
+            <header>
+                <h1 class="mt-5"><u>The 10,000 Hour Calcuator</u></h1>
+            </header>
+            <main>
+                <div class="mt-5" id="form_container">
+                    <div id="form">
+                        <div class="mb-4" id="hours_container">
+                            <input type="number" class="mb-2" id="hours" placeholder="Hours" />
+                            <p class="text">
+                                On average, how many hours a day<br>do you practice your skill?
+                            </p>
                         </div>
-                        <p>How long have you been practicing your skill?</p>
+                        <div class="mb-4" id="days_container">
+                            <input type="number" class="mb-2" id="days" placeholder="Days (optional)" />
+                            <p class="text">
+                                On average, how many days a week<br>do you practice your skill?
+                            </p>
+                            <p class="subtext">
+                                (Program will assume 7 if left blank)
+                            </p>
+                        </div>
+                        <div class="mt-4 mb-4" id="time_spent_container">
+                            <div class="row mb-2" id="tSpent_inputs">
+                                <input type="number" class="col-6" id="years" placeholder="Years (optional)" />
+                                <input type="number" class="col-6" id="months" placeholder="Months (optional)" />
+                            </div>
+                            <p>How long have you been practicing your skill?</p>
+                        </div>
+                        <div class="mt-5 mb-5" id="calc_container">
+                            <button type="submit" id="calculate" onclick="calc();">Calculate</button>
+                            <p class="col-12" id="result"></p>
+                        </div>
                     </div>
-                    <div class="mt-5 mb-5" id="calc_container">
-                        <button type="submit" class="" id="calculate" onclick="calc();">Calculate</button>
-                        <p class="col-12" id="result"></p>
-                    </div>
-                </section>
-            </div>
-        </main>
-        <footer>
-            <section id="about_container" class="">
-                <button class="m-0" id="about_btn" onclick="about_reveal();">About</button>
-                <p id="about">
-                    A calculator for determining how long you have left to 
-                    reach 10,000 hours in a skill. The calculator will tell you 
-                    how many hours you have left based on how many hours a day 
-                    you practice a skill, and how many days a week you practice. 
-                    If provided, it will take into account how long you've been 
-                    practicing for aswell.<br>(Program assumes your given schedule 
-                    for current hours practiced).
-                </p>
-            </section>
-        </footer>
+                </div>
+            </main>
+            <footer class="mb-0">
+                <div id="about_container">
+                    <button class="m-0" id="about_btn">About</button>
+                    <p id="about" class="pt-4 pb-4">
+                        A calculator for determining how long you have left to 
+                        reach 10,000 hours in a skill. The calculator will tell you 
+                        how many hours you have left based on how many hours a day 
+                        you practice a skill, and how many days a week you practice. 
+                        If provided, it will take into account how long you've been 
+                        practicing for aswell.<br>(Program assumes your given schedule 
+                        for current hours practiced).
+                    </p>
+                </div>
+            </footer>
+        </div>
     </body>
 </html>
