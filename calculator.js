@@ -62,10 +62,6 @@ function calc() {
     }
 
     function calculate() {
-        console.log('years: ', years)
-        console.log('tw: ', total_weeks)
-        console.log('days: ', days)
-        console.log('hours: ', hours)
         // grabs the result <p> element
         let result_txt = document.getElementById('result');
         // if the elements are not visible, they are made visible
@@ -73,7 +69,6 @@ function calc() {
         $('#calc_container').css("visibility", "visible");
         // calculates total hours spent practicing so far
         let to_date = (total_weeks * days) * hours;
-        console.log('to date: ', to_date);
         // in the case of the users input being greater than 10k
         if (Math.round(to_date) > ten_k) {
             // calculates surplus
@@ -87,7 +82,7 @@ function calc() {
             let remaining_hours = Math.round(ten_k - to_date);
             let total = (hours * days) * weeks;
             let result = remaining_hours / total;
-            years_result = Math.round(result);
+            years_result = Math.floor(result);
             months_result = Math.round(12 * (result - Math.floor(result)));
 
             // in the case of the users input equaling 10k
