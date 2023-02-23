@@ -16,24 +16,20 @@ function calc() {
         // checks for any input for hours
         if (hours == 0) {
             alert('Please enter hours.');
-            console.log('hours== working');
             return
         }
         // displays an alert if user enters a value greater than 24 in #hours
         if (hours > 24) {
             alert('Please enter a valid number of hours.');
-            console.log('hours>24 working');
             return
         }
         // defaults days to 7 if user doesnt use #days input
         if (days == 0) {
             days = 7;
-            console.log('days== working', days);
         }
         // displays an alert if user enters a value greather than 7 in #days
         if (days > 7) {
             alert('Please enter a valid number of days.');
-            console.log('days>7 working');
             return
         }
         // displays a alert if months is equal to 12(a year) or greater 
