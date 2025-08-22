@@ -1,117 +1,107 @@
-function calc() {
-    // gets value from #hours input
-    let hours = Number($('#hours').val());
-    // gets value from #days input
-    let days = Number($('#days').val());
-    // gets value from #days input
-    let years = Number($('#years').val());
-    // gets value from #days input
-    let months = Number($('#months').val());
-    // initializes variables for nested functions
-    const weeks = 52.143;
-    const ten_k = 10000;
-    let total_weeks = 0;
+$(document).ready(function() {
 
-    function filter() {
-        // checks for any input for hours
-        if (hours == 0) {
-            alert('Please enter hours.');
-            return
-        }
-        // displays an alert if user enters a value greater than 24 in #hours
-        if (hours > 24) {
-            alert('Please enter a valid number of hours.');
-            return
-        }
-        // defaults days to 7 if user doesnt use #days input
-        if (days == 0) {
-            days = 7;
-        }
-        // displays an alert if user enters a value greather than 7 in #days
-        if (days > 7) {
-            alert('Please enter a valid number of days.');
-            return
-        }
-        // displays a alert if months is equal to 12(a year) or greater 
-        if (months > 12) {
-            alert('Please enter a valid number of months.');
-            return
-        }
-        // displays a alert if months is equal to 12(a year) or greater 
-        if (months == 12) {
-            total_weeks == weeks
-        }
-        // converts months to weeks if month is a valid number
-        if (months > 0) {
-            total_weeks = months * 4.345;
-            console.log('mw: ', total_weeks)
-        }
-        /* converts years to weeks if years is a valid number and adds it to
-           any weeks converted from months */
-        if (years > 0) {
-            total_weeks = (years * weeks) + total_weeks;
+    // --- CONSTANTS ---
+    // Defining these as constants makes the code easier to read and manage.
+    const GOAL_HOURS = 10000;
+    const WEEKS_IN_YEAR = 52.143; // Average number of weeks in a year
+    const WEEKS_IN_MONTH = WEEKS_IN_YEAR / 12; // Approx. 4.345
 
-            console.log('tw-filter: ', total_weeks)
+    /**
+     * Main function to run the 10,000-hour calculation.
+     * It orchestrates getting input, validating it, calculating, and displaying the result.
+     */
+    function runCalculator() {
+        // 1. --- GET AND PARSE USER INPUT ---
+        // We get all values first and convert them to numbers.
+        const hoursPerDay = parseFloat($('#hours').val()) || 0;
+        let daysPerWeek = parseFloat($('#days').val()) || 0;
+        const yearsPracticed = parseFloat($('#years').val()) || 0;
+        const monthsPracticed = parseFloat($('#months').val()) || 0;
+
+        // 2. --- VALIDATE THE INPUT ---
+        // This block checks for common errors.
+        if (hoursPerDay <= 0) {
+            alert('Please enter the hours you practice per day.');
+            return;
         }
-            // runs calculate function
-            return calculate();
+        if (hoursPerDay > 24) {
+            alert('Hours per day cannot be more than 24.');
+            return;
+        }
+        if (daysPerWeek > 7) {
+            alert('Days per week cannot be more than 7.');
+            return;
+        }
+        if (monthsPracticed >= 12) {
+            alert('For 12 months or more, please use the "Years" input.');
+            return;
+        }
+        if (daysPerWeek === 0) {
+            // Default to 7 if the user leaves the days input blank.
+            daysPerWeek = 7;
+        }
+
+        // 3. --- PERFORM THE CALCULATIONS ---
+        // Calculate the total time the user has already practiced in weeks.
+        const totalWeeksPracticed = (yearsPracticed * WEEKS_IN_YEAR) + (monthsPracticed * WEEKS_IN_MONTH);
+
+        // Calculate total hours completed to date.
+        const hoursCompleted = totalWeeksPracticed * daysPerWeek * hoursPerDay;
+
+        // 4. --- GENERATE THE RESULT MESSAGE ---
+        let resultMessage = '';
+
+        if (hoursCompleted >= GOAL_HOURS) {
+            const surplus = Math.round(hoursCompleted - GOAL_HOURS);
+            if (surplus === 0) {
+                resultMessage = "You've reached 10,000 hours, time to celebrate!";
+            } else {
+                resultMessage = `Congrats! You've surpassed 10,000 hours by ${surplus} hours!`;
+            }
+        } else {
+            const remainingHours = GOAL_HOURS - hoursCompleted;
+            const hoursPerYear = hoursPerDay * daysPerWeek * WEEKS_IN_YEAR;
+
+            // This prevents a "divide by zero" error if user enters 0 hours or days.
+            if (hoursPerYear <= 0) {
+                displayResult(""); // Clear previous results if input is invalid
+                return;
+            }
+
+            const yearsRemainingDecimal = remainingHours / hoursPerYear;
+            const yearsToGoal = Math.floor(yearsRemainingDecimal);
+            const monthsToGoal = Math.round((yearsRemainingDecimal - yearsToGoal) * 12);
+
+            resultMessage = `You have approx. ${Math.round(remainingHours)} hours left.\n` +
+                            `At your set pace, it will take about:\n` +
+                            `${yearsToGoal} Year(s) and ${monthsToGoal} month(s)\n` +
+                            `to reach 10,000 hours of practice.`;
+        }
+        
+        // 5. --- DISPLAY THE RESULT ---
+        displayResult(resultMessage);
     }
 
-    function calculate() {
-        // grabs the result <p> element
-        let result_txt = document.getElementById('result');
-        // if the elements are not visible, they are made visible
-        $('#result').show();
+    /**
+     * Updates the UI to show the final result.
+     * @param {string} message - The text to display.
+     */
+    function displayResult(message) {
+        $('#result').text(message).show();
         $('#calc_container').css("visibility", "visible");
-        // calculates total hours spent practicing so far
-        let to_date = (total_weeks * days) * hours;
-        // in the case of the users input being greater than 10k
-        if (Math.round(to_date) > ten_k) {
-            // calculates surplus
-            surplus = to_date - ten_k;
-            surplus = Math.round(surplus);
-            result_txt.innerText = `Congrats! You\'ve surpassed 10,000 hours by ${surplus} hours!`;
-            // exit
-            return
-        }
-        else {
-            let remaining_hours = Math.round(ten_k - to_date);
-            let total = (hours * days) * weeks;
-            let result = remaining_hours / total;
-            years_result = Math.floor(result);
-            months_result = Math.round(12 * (result - Math.floor(result)));
-
-            // in the case of the users input equaling 10k
-            if (Math.round(to_date) == ten_k) {
-                result_txt.innerText = 'You\'ve reached 10,000 hours, time to celebrate!';
-                console.log('to date: ', to_date);
-                // exit
-                return
-            }
-            // otherwise
-            else {
-                // takes result and rounds upwards for the first decimal 
-                result_txt.innerText = `You have approx. ${remaining_hours} hours left.\nAt your set pace, It will take about:\n${years_result} Year(s), and ${months_result} month(s)\nto reach 10,000 hours of practice.`;
-                // exits function
-                return
-            }
-        }
-    }
-        // runs filter function
-        return filter();
-}
-// grabs the about <input> element
-$(document).on('click', '#about_btn', function about_reveal() {
-    // if the elements are not visible, they are made visible
-    if ($('about').css('display') == 'none' || $('#about_container').css('visibility') == 'hidden') {
-        $('#about').show();
-        $('#about_container').css("visibility", "visible");
-
     }
 
-    // if the elements are visible, they are hidden
-    else {
-        $('#about').hide();
-        $('#about_container').css("visibility", "hidden");
+    /**
+     * Toggles the visibility of the "About" section.
+     * Using .toggle() is a simpler way to show/hide elements.
+     */
+    function toggleAboutSection() {
+        $('#about, #about_container').toggle();
     }
+
+    // --- EVENT LISTENERS ---
+    // Binds the functions to your HTML buttons.
+    $('#calc_btn').on('click', runCalculator); // Assumes your button has id="calc_btn"
+    $('#about_btn').on('click', toggleAboutSection);
+
 });
