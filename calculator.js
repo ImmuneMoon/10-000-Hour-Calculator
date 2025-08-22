@@ -47,7 +47,7 @@ function calc() {
             total_weeks = (years * weeks) + total_weeks;
         }
         
-        // ⭐ THE FIX: If no years or months were entered, total_weeks is 0.
+        // If no years or months were entered, total_weeks is 0.
         // This line checks for that case and defaults to 1 week of practice.
         if (total_weeks === 0) {
             total_weeks = 1;
